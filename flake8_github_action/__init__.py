@@ -28,7 +28,7 @@ GitHub Action to run flake8.
 
 # stdlib
 import json
-from typing import List, Union
+from typing import List, Tuple, Union
 
 # 3rd party
 import click
@@ -57,7 +57,7 @@ def action(
 		token: Union[str, Secret],
 		repo: Union[str, URL, None] = None,
 		*args,
-		) -> Response:
+		) -> Tuple[Response, int]:
 	r"""
 	Action!
 
@@ -115,8 +115,10 @@ def action(
 
 	if flake8_app.result_count:
 		conclusion = "failure"
+		ret = 1
 	else:
 		conclusion = "success"
+		ret = 0
 
 	for chunk in annotation_chunks[:-1]:
 		check.update_check_run(
@@ -137,7 +139,7 @@ def action(
 						"summary": "Output from Flake8",
 					"annotations": [a.to_dict() for a in annotation_chunks[-1]],
 					},
-			)
+			), ret
 
 
 
