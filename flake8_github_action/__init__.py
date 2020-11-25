@@ -92,7 +92,7 @@ def action(
 	check = Checks(
 			owner=github_username,
 			repository_name=repo_name,
-			check_name="Linting",
+			check_name="Flake8",
 			head_sha=dulwich_repo.head().decode("UTF-8"),
 			token=token.value,
 			)
@@ -128,7 +128,11 @@ def action(
 			conclusion="success",  # TODO: reflect flake8 output
 			output={
 					"title": "Flake8 checks",
-					"summary": "Output from Flake8",
+						"summary": "Output from Flake8",
 					"annotations": [a.to_dict() for a in annotation_chunks[-1]],
 					},
 			)
+
+
+
+
