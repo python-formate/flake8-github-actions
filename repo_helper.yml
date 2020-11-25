@@ -1,0 +1,25 @@
+# Configuration for 'repo_helper' (https://github.com/domdfcoding/repo_helper)
+---
+modname: 'flake8-github-action'
+copyright_years: '2020'
+author: 'Dominic Davis-Foster'
+email: 'dominic@davis-foster.co.uk'
+username: 'domdfcoding'
+version: '0.0.0'
+license: 'MIT'
+short_desc: 'GitHub Action to run flake8.'
+
+enable_conda: false
+enable_tests: false
+enable_docs: false
+on_pypi: False
+
+python_versions:
+ - 3.6
+ - 3.7
+ - 3.8
+ - 3.9
+
+
+additional_ignore:
+ - action.py
