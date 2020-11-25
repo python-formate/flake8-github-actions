@@ -39,9 +39,9 @@ from typing import Optional, Tuple, Type
 
 # 3rd party
 import click
-import flake8.main.application
-from flake8.formatting.base import BaseFormatter
-from flake8_json_reporter.reporters import DefaultJSON
+import flake8.main.application  # type: ignore
+from flake8.formatting.base import BaseFormatter  # type: ignore
+from flake8_json_reporter.reporters import DefaultJSON  # type: ignore
 
 __all__ = ["Application", "JsonFormatter"]
 
