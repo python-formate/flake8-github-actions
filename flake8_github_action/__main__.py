@@ -80,7 +80,6 @@ def main(ctx: click.Context, token: str, repo: Union[str, URL, None] = None):
 
 
 if __name__ == "__main__":
-	print("GITHUB_ACTION:", os.environ["GITHUB_ACTION"])
 	print("GITHUB_RUN_ID:", os.environ["GITHUB_RUN_ID"])
 	print("GITHUB_WORKFLOW:", os.environ["GITHUB_WORKFLOW"])
 

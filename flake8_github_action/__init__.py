@@ -97,7 +97,8 @@ def action(
 			token=token.value,
 			)
 
-	check_run_id = check.create_check_run()
+	# check_run_id = check.create_check_run()
+	check_run_id = check.find_run_for_action()
 
 	flake8_app = Application()
 	flake8_app.run(args)

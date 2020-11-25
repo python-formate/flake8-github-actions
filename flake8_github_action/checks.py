@@ -27,6 +27,7 @@ Provides access to GitHub's Check's API.
 #
 
 # stdlib
+import os
 from datetime import datetime
 
 # 3rd party
@@ -66,6 +67,18 @@ class Checks:
 
 	#: The token used to authenticate with the GitHub api.
 	token: Secret = attr.ib(converter=Secret)
+
+	def find_run_for_action(self) -> int:
+		"""
+		Returns the check run ID that corresponds to the current GitHub Actions run.
+		"""
+
+		url = API_GITHUB_COM / "repos" / self.owner / self.repository_name / "commits" / self.head_sha / "check-runs"
+		headers = {**common_headers, "Authorization": f"token {self.token.value}"}
+
+		for check_run in url.get(headers=headers).json()["check_runs"]:
+			if check_run["name"] == os.environ.get("GITHUB_WORKFLOW"):
+				return check_run["id"]
 
 	def create_check_run(self) -> int:
 		"""
