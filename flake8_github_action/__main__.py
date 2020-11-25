@@ -70,7 +70,14 @@ def main(ctx: click.Context, token: str, repo: Union[str, URL, None] = None):
 	# this package
 	from flake8_github_action import action
 
+	print(ctx.args)
+
 	response = action(token, repo, *ctx.args)
 
 	if response.status_code == 200:
 		sys.exit(0)
+
+
+if __name__ == "__main__":
+	sys.exit(main(obj={}))
+
