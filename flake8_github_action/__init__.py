@@ -131,16 +131,11 @@ def action(
 						},
 				)
 
-	return check.complete_check_run(
-			check_run_id,
-			conclusion="success",  # TODO: reflect flake8 output
-			output={
-					"title": "Flake8 checks",
-						"summary": "Output from Flake8",
-					"annotations": [a.to_dict() for a in annotation_chunks[-1]],
-					},
-			), ret
+	output = {
+			"title": "Flake8 checks",
+			"summary": "Output from Flake8",
+			"annotations": [a.to_dict() for a in annotation_chunks[-1]],
+			}
 
-
-
-
+	# TODO: reflect flake8 output
+	return check.complete_check_run(check_run_id, conclusion="success", output=output), ret

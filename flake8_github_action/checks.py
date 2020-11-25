@@ -76,9 +76,13 @@ class Checks:
 		url = API_GITHUB_COM / "repos" / self.owner / self.repository_name / "commits" / self.head_sha / "check-runs"
 		headers = {**common_headers, "Authorization": f"token {self.token.value}"}
 
+		workflow_name = os.environ.get("GITHUB_WORKFLOW")
+
 		for check_run in url.get(headers=headers).json()["check_runs"]:
-			if check_run["name"] == os.environ.get("GITHUB_WORKFLOW"):
+			if check_run["name"] == workflow_name:
 				return check_run["id"]
+
+		raise ValueError(f"Can't find a check run for workflow with name {workflow_name}")
 
 	def create_check_run(self) -> int:
 		"""

@@ -79,4 +79,3 @@ def main(ctx: click.Context, token: str, repo: Union[str, URL, None] = None):
 
 if __name__ == "__main__":
 	sys.exit(main(obj={}))
-
