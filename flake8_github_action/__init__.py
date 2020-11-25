@@ -113,10 +113,15 @@ def action(
 	# Github limits updates to 50 annotations at a time
 	annotation_chunks = list(chunks(annotations, 50))
 
+	if flake8_app.result_count:
+		conclusion = "failure"
+	else:
+		conclusion = "success"
+
 	for chunk in annotation_chunks[:-1]:
 		check.update_check_run(
 				check_run_id,
-				conclusion="success",  # TODO: reflect flake8 output
+				conclusion=conclusion,
 				output={
 						"title": "Flake8 checks",
 						"summary": "Output from Flake8",

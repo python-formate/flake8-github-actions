@@ -27,7 +27,6 @@ CLI entry point.
 #
 
 # stdlib
-import os
 import sys
 from typing import Union
 
@@ -71,8 +70,6 @@ def main(ctx: click.Context, token: str, repo: Union[str, URL, None] = None):
 	# this package
 	from flake8_github_action import action
 
-	print(ctx.args)
-
 	response = action(token, repo, *ctx.args)
 
 	if response.status_code == 200:
@@ -80,8 +77,5 @@ def main(ctx: click.Context, token: str, repo: Union[str, URL, None] = None):
 
 
 if __name__ == "__main__":
-	print("GITHUB_RUN_ID:", os.environ["GITHUB_RUN_ID"])
-	print("GITHUB_WORKFLOW:", os.environ["GITHUB_WORKFLOW"])
-
 	sys.exit(main(obj={}))
 
