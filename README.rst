@@ -105,7 +105,6 @@ To install with ``pip``:
 
 .. end installation
 
-
 Use with GitHub Actions
 ----------------------------
 
