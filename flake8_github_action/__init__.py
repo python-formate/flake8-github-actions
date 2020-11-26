@@ -2,7 +2,7 @@
 #
 #  __init__.py
 """
-GitHub Action to run flake8.
+GitHub Actions integration for flake8.
 """
 #
 #  Copyright © 2020 Dominic Davis-Foster <dominic@davis-foster.co.uk>
@@ -26,28 +26,8 @@ GitHub Action to run flake8.
 #  OR OTHER DEALINGS IN THE SOFTWARE.
 #
 
-# 3rd party
-from typing_extensions import NoReturn
-
-# this package
-from flake8_github_action.flake8_app import Application
-
 __author__: str = "Dominic Davis-Foster"
 __copyright__: str = "2020 Dominic Davis-Foster"
 __license__: str = "MIT License"
 __version__: str = "0.0.0"
 __email__: str = "dominic@davis-foster.co.uk"
-
-__all__ = ["action"]
-
-
-def action(*args, ) -> NoReturn:
-	r"""
-	Action!
-
-	:param \*args: flake8 command line arguments.
-	"""
-
-	flake8_app = Application()
-	flake8_app.run(args)
-	flake8_app.exit()

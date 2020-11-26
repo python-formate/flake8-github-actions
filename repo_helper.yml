@@ -27,3 +27,7 @@ keywords:
  - flake8
  - github
  - github-actions
+
+entry_points:
+ flake8.report:
+  - github = flake8_github_action.reporters:GitHubFormatter
