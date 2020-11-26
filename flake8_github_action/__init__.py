@@ -86,6 +86,3 @@ class GitHubFormatter(BaseFormatter):
 					)
 
 		self.reported_errors_count += 1
-
-
-
