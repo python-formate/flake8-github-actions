@@ -79,10 +79,10 @@ class GitHubFormatter(BaseFormatter):
 		if self.reported_errors_count == 0:
 			self.write_line(violation.filename)
 
-			self.write_line(
-					f"::warning "
-					f"file={violation.filename},line={violation.line_number},col={violation.column_number}"
-					f"::{violation.code}: {violation.text}"
-					)
+		self.write_line(
+				f"::warning "
+				f"file={violation.filename},line={violation.line_number},col={violation.column_number}"
+				f"::{violation.code}: {violation.text}"
+				)
 
 		self.reported_errors_count += 1
