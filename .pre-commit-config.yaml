@@ -38,7 +38,7 @@ repos:
    rev: v0.1.3
    hooks:
     - id: ensure-dunder-all
-      files: ^flake8_github_action/.*\.py$
+      files: ^flake8_github_actions/.*\.py$
 
  - repo: https://github.com/pre-commit/pygrep-hooks
    rev: v1.7.0
@@ -69,6 +69,6 @@ repos:
    hooks:
     - id: dep_checker
       args:
-       - flake8_github_action
+       - flake8_github_actions
 
 # Custom hooks can be added below this comment

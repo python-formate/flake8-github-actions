@@ -38,7 +38,7 @@ THE ISSUE WILL BE CLOSED IF INSUFFICIENT INFORMATION IS PROVIDED.
 
   * Operating System:
   * Python:
-  * flake8-github-action:
+  * flake8-github-actions:
 
 ## Installation source
 <!-- e.g. Github repository, Github Releases, PyPI/pip, Anaconda/conda -->

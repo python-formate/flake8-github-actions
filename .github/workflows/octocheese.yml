@@ -13,6 +13,6 @@ jobs:
     steps:
       - uses: domdfcoding/octocheese@master
         with:
-          pypi_name: "flake8-github-action"
+          pypi_name: "flake8-github-actions"
         env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}

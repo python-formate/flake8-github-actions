@@ -1,6 +1,6 @@
 # Configuration for 'repo_helper' (https://github.com/domdfcoding/repo_helper)
 ---
-modname: 'flake8-github-action'
+modname: 'flake8-github-actions'
 copyright_years: '2020'
 author: 'Dominic Davis-Foster'
 email: 'dominic@davis-foster.co.uk'
@@ -29,4 +29,4 @@ keywords:
 
 entry_points:
  flake8.report:
-  - github = flake8_github_action:GitHubFormatter
+  - github = flake8_github_actions:GitHubFormatter

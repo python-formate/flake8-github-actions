@@ -20,7 +20,7 @@ assignees: domdfcoding
 
   * Operating System:
   * Python:
-  * flake8-github-action:
+  * flake8-github-actions:
 
 
 ## Other Additional Information:

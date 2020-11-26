@@ -2,5 +2,5 @@ include __pkginfo__.py
 include LICENSE
 include requirements.txt
 prune **/__pycache__
-recursive-include flake8_github_action *.pyi
-include flake8_github_action/py.typed
+recursive-include flake8_github_actions *.pyi
+include flake8_github_actions/py.typed
