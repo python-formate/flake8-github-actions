@@ -13,7 +13,7 @@ sys.path.append('.')
 from __pkginfo__ import *  # pylint: disable=wildcard-import
 
 setup(
-		description="GitHub Action to run flake8.",
+		description="GitHub Actions integration for flake8.",
 		extras_require=extras_require,
 		install_requires=install_requires,
 		py_modules=[],

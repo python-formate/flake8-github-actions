@@ -7,12 +7,11 @@ email: 'dominic@davis-foster.co.uk'
 username: 'domdfcoding'
 version: '0.0.0'
 license: 'MIT'
-short_desc: 'GitHub Action to run flake8.'
+short_desc: 'GitHub Actions integration for flake8.'
 
 enable_conda: false
 enable_tests: false
 enable_docs: false
-on_pypi: False
 
 python_versions:
  - 3.6

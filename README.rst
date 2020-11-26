@@ -4,7 +4,7 @@ flake8-github-action
 
 .. start short_desc
 
-**GitHub Action to run flake8.**
+**GitHub Actions integration for flake8.**
 
 .. end short_desc
 
@@ -17,7 +17,8 @@ flake8-github-action
 
 	* - Tests
 	  - |travis| |actions_windows| |actions_macos| |codefactor| |pre_commit_ci|
-
+	* - PyPI
+	  - |pypi-version| |supported-versions| |supported-implementations| |wheel|
 	* - Activity
 	  - |commits-latest| |commits-since| |maintained|
 	* - Other
@@ -93,6 +94,15 @@ Installation
 --------------
 
 .. start installation
+
+``flake8-github-action`` can be installed from PyPI.
+
+To install with ``pip``:
+
+.. code-block:: bash
+
+	$ python -m pip install flake8-github-action
+
 .. end installation
 
 
