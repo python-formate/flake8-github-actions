@@ -134,14 +134,12 @@ class Application(flake8.main.application.Application):
 
 		super().report()
 
-		annotations: List[Annotation] = []
-
 		json_annotations = json.loads(self.formatter.output_fd.getvalue()).items()
-		for filename, raw_annotations in json_annotations:
-			annotations.extend(Annotation.from_flake8json(filename, ann) for ann in raw_annotations)
 
-		for annotation in annotations:
-			print(annotation.to_str())
+		for filename, raw_annotations in json_annotations:
+			print(filename)
+			for annotation in raw_annotations:
+				print(Annotation.from_flake8json(filename, annotation).to_str())
 
 
 class JsonFormatter(DefaultJSON):
@@ -150,6 +148,3 @@ class JsonFormatter(DefaultJSON):
 		super().__init__(*args, **kwargs)
 
 		self.output_fd = StringIO()
-
-
-

@@ -29,6 +29,6 @@ jobs:
           python -m pip install .
 
       - name: "Run Flake8"
-        run: "python -m flake8_github_action flake8_github_action"
+        run: "python -m flake8_github_action flake8_github_action --exit-zero"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
