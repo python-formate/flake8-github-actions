@@ -141,7 +141,7 @@ Example workflow:
 	          python -m site
 	          python -m pip install --upgrade pip setuptools wheel
 	          python -m pip install flake8
-	          python -m pip install git+https://github.com/domdfcoding/flake8-github-actions
+	          python -m pip install flake8-github-actions
 
 	      - name: "Run Flake8"
 	        run: "flake8 --format github"
