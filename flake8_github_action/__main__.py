@@ -43,24 +43,6 @@ token_var = "GITHUB_TOKEN"
 
 
 @click.option(
-		"-t",
-		"--token",
-		type=click.STRING,
-		help=(
-				"The token to authenticate with the GitHub API. "
-				f"Can also be provided via the '{token_var}' environment variable."
-				),
-		envvar=token_var,
-		required=True,
-		)
-@click.option(
-		"-r",
-		"--repo",
-		type=click.STRING,
-		default=None,
-		help="The repository name (in the format <username>/<repository>) or the complete GitHub URL.",
-		)
-@click.option(
 		"--annotate-only",
 		is_flag=True,
 		default=False,
@@ -68,7 +50,7 @@ token_var = "GITHUB_TOKEN"
 		)
 @click.command(context_settings={"ignore_unknown_options": True, "allow_extra_args": True, **CONTEXT_SETTINGS})
 @click.pass_context
-def main(ctx: click.Context, token: str, repo: Union[str, URL, None] = None, annotate_only: bool = False,):
+def main(ctx: click.Context, repo: Union[str, URL, None] = None, annotate_only: bool = False,):
 	"""
 	Run flake8 and add the errors as annotations on GitHub.
 	"""
@@ -76,7 +58,7 @@ def main(ctx: click.Context, token: str, repo: Union[str, URL, None] = None, ann
 	# this package
 	from flake8_github_action import action
 
-	response, ret = action(token, repo, *ctx.args)
+	response, ret = action(repo, *ctx.args)
 
 	# if response.status_code == 200:
 	# 	sys.exit(0)

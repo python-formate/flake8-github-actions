@@ -28,16 +28,7 @@ GitHub Action to run flake8.
 
 # stdlib
 import json
-from typing import List, Tuple, Union
-
-# 3rd party
-import click
-import dulwich.errors
-from apeye import URL
-from domdf_python_tools.iterative import chunks
-from domdf_python_tools.secrets import Secret
-from dulwich.repo import Repo
-from requests import Response
+from typing import List
 
 # this package
 from flake8_github_action.annotation import Annotation
@@ -54,56 +45,13 @@ __all__ = ["action"]
 
 
 def action(
-		token: Union[str, Secret],
-		repo: Union[str, URL, None] = None,
 		*args,
-		) -> Tuple[Response, int]:
+		) -> int:
 	r"""
 	Action!
 
-	:param token: The token to authenticate with the GitHub API.
-	:param repo: The repository name (in the format <username>/<repository>) or the complete GitHub URL.
 	:param \*args: flake8 command line arguments.
 	"""
-
-	if not isinstance(token, Secret):
-		token = Secret(token)
-
-	dulwich_repo = Repo('.')
-
-	if repo is None:
-		try:
-			config = dulwich_repo.get_config()
-			repo = URL(config.get(("remote", "origin"), "url").decode("UTF-8"))
-		except dulwich.errors.NotGitRepository as e:
-			raise click.UsageError(str(e))
-
-	elif not isinstance(repo, URL):
-		repo = URL(repo)
-
-	if repo.suffix == ".git":
-		repo = repo.with_suffix('')
-
-	repo_name = repo.name
-
-	# first case is for full url, second for github/hello_world
-	github_username = repo.parent.name or repo.domain.domain
-
-	check = Checks(
-			owner=github_username,
-			repository_name=repo_name,
-			check_name="Flake8",
-			head_sha=dulwich_repo.head().decode("UTF-8"),
-			token=token.value,
-			)
-
-	# check_run_id = check.create_check_run()
-	check_run_id = check.find_run_for_action()
-	check.update_check_run(
-			check_run_id,
-			status="in_progress",
-			output={"title": "Flake8 checks", "summary": "Output from Flake8"},
-			)
 
 	flake8_app = Application()
 	flake8_app.run(args)
@@ -115,34 +63,16 @@ def action(
 	for filename, raw_annotations in json_annotations:
 		annotations.extend(Annotation.from_flake8json(filename, ann) for ann in raw_annotations)
 
+	if flake8_app.result_count:
+		ret = 1
+	else:
+		ret = 0
+
 	if annotations:
-		# Github limits updates to 50 annotations at a time
-		annotation_chunks = list(chunks(annotations, 50))
+		for annotation in annotations:
+			print(annotation.to_str())
 
-		if flake8_app.result_count:
-			conclusion = "failure"
-			ret = 1
-		else:
-			conclusion = "success"
-			ret = 0
+	return ret
 
-		for chunk in annotation_chunks[:-1]:
-			check.update_check_run(
-					check_run_id,
-					conclusion=conclusion,
-					output={
-							"title": "Flake8 checks",
-							"summary": "Output from Flake8",
-							"annotations": [a.to_dict() for a in chunk],
-							},
-					)
 
-		output = {
-				"title": "Flake8 checks",
-				"summary": "Output from Flake8",
-				"annotations": [a.to_dict() for a in annotation_chunks[-1]],
-				}
 
-		return check.complete_check_run(check_run_id, conclusion=conclusion, output=output), ret
-
-	return check.complete_check_run(check_run_id, conclusion="success"), 0

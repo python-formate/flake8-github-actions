@@ -108,3 +108,10 @@ class Annotation:
 				annotation_level="warning",
 				message="{code}: {text}".format_map(data)
 				)
+
+	def to_str(self) -> str:
+		return (
+				f"::{self.annotation_level} "
+				f"file={self.path},line={self.start_line},col={self.start_column}"
+				f"::{self.message}"
+				)
