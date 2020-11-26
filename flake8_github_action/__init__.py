@@ -99,6 +99,11 @@ def action(
 
 	# check_run_id = check.create_check_run()
 	check_run_id = check.find_run_for_action()
+	check.update_check_run(
+			check_run_id,
+			status="in_progress",
+			output={"title": "Flake8 checks", "summary": "Output from Flake8"},
+			)
 
 	flake8_app = Application()
 	flake8_app.run(args)
@@ -110,32 +115,34 @@ def action(
 	for filename, raw_annotations in json_annotations:
 		annotations.extend(Annotation.from_flake8json(filename, ann) for ann in raw_annotations)
 
-	# Github limits updates to 50 annotations at a time
-	annotation_chunks = list(chunks(annotations, 50))
+	if annotations:
+		# Github limits updates to 50 annotations at a time
+		annotation_chunks = list(chunks(annotations, 50))
 
-	if flake8_app.result_count:
-		conclusion = "failure"
-		ret = 1
-	else:
-		conclusion = "success"
-		ret = 0
+		if flake8_app.result_count:
+			conclusion = "failure"
+			ret = 1
+		else:
+			conclusion = "success"
+			ret = 0
 
-	for chunk in annotation_chunks[:-1]:
-		check.update_check_run(
-				check_run_id,
-				conclusion=conclusion,
-				output={
-						"title": "Flake8 checks",
-						"summary": "Output from Flake8",
-						"annotations": [a.to_dict() for a in chunk],
-						},
-				)
+		for chunk in annotation_chunks[:-1]:
+			check.update_check_run(
+					check_run_id,
+					conclusion=conclusion,
+					output={
+							"title": "Flake8 checks",
+							"summary": "Output from Flake8",
+							"annotations": [a.to_dict() for a in chunk],
+							},
+					)
 
-	output = {
-			"title": "Flake8 checks",
-			"summary": "Output from Flake8",
-			"annotations": [a.to_dict() for a in annotation_chunks[-1]],
-			}
+		output = {
+				"title": "Flake8 checks",
+				"summary": "Output from Flake8",
+				"annotations": [a.to_dict() for a in annotation_chunks[-1]],
+				}
 
-	# TODO: reflect flake8 output
-	return check.complete_check_run(check_run_id, conclusion="success", output=output), ret
+		return check.complete_check_run(check_run_id, conclusion=conclusion, output=output), ret
+
+	return check.complete_check_run(check_run_id, conclusion="success"), 0

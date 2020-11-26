@@ -60,9 +60,15 @@ token_var = "GITHUB_TOKEN"
 		default=None,
 		help="The repository name (in the format <username>/<repository>) or the complete GitHub URL.",
 		)
+@click.option(
+		"--annotate-only",
+		is_flag=True,
+		default=False,
+		help="Only add the annotations (exit 0 regardless of flake8 output).",
+		)
 @click.command(context_settings={"ignore_unknown_options": True, "allow_extra_args": True, **CONTEXT_SETTINGS})
 @click.pass_context
-def main(ctx: click.Context, token: str, repo: Union[str, URL, None] = None):
+def main(ctx: click.Context, token: str, repo: Union[str, URL, None] = None, annotate_only: bool = False,):
 	"""
 	Run flake8 and add the errors as annotations on GitHub.
 	"""
@@ -74,7 +80,11 @@ def main(ctx: click.Context, token: str, repo: Union[str, URL, None] = None):
 
 	# if response.status_code == 200:
 	# 	sys.exit(0)
-	sys.exit(ret)
+
+	if annotate_only:
+		sys.exit(0)
+	else:
+		sys.exit(ret)
 
 
 if __name__ == "__main__":
