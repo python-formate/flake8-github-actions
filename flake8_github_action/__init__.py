@@ -2,7 +2,7 @@
 #
 #  __init__.py
 """
-GitHub Action to run flake8.
+GitHub Actions integration for flake8.
 """
 #
 #  Copyright © 2020 Dominic Davis-Foster <dominic@davis-foster.co.uk>
@@ -27,22 +27,11 @@ GitHub Action to run flake8.
 #
 
 # stdlib
-import json
-from typing import List, Tuple, Union
+from functools import partial
+from gettext import ngettext
 
 # 3rd party
-import click
-import dulwich.errors
-from apeye import URL
-from domdf_python_tools.iterative import chunks
-from domdf_python_tools.secrets import Secret
-from dulwich.repo import Repo
-from requests import Response
-
-# this package
-from flake8_github_action.annotation import Annotation
-from flake8_github_action.checks import Checks
-from flake8_github_action.flake8_app import Application
+from flake8.formatting.base import BaseFormatter  # type: ignore
 
 __author__: str = "Dominic Davis-Foster"
 __copyright__: str = "2020 Dominic Davis-Foster"
@@ -50,92 +39,50 @@ __license__: str = "MIT License"
 __version__: str = "0.0.0"
 __email__: str = "dominic@davis-foster.co.uk"
 
-__all__ = ["action"]
+__all__ = ["GitHubFormatter"]
+
+_error = partial(ngettext, "error", "errors")
+_file = partial(ngettext, "file", "files")
 
 
-def action(
-		token: Union[str, Secret],
-		repo: Union[str, URL, None] = None,
-		*args,
-		) -> Tuple[Response, int]:
-	r"""
-	Action!
+class GitHubFormatter(BaseFormatter):
 
-	:param token: The token to authenticate with the GitHub API.
-	:param repo: The repository name (in the format <username>/<repository>) or the complete GitHub URL.
-	:param \*args: flake8 command line arguments.
-	"""
+	def write_line(self, line):
+		"""
+		Override write for convenience.
+		"""
+		self.write(line, None)
 
-	if not isinstance(token, Secret):
-		token = Secret(token)
+	def start(self):
+		super().start()
+		self.files_reported_count = 0
 
-	dulwich_repo = Repo('.')
+	def beginning(self, filename):
+		"""
+		We're starting a new file.
+		"""
 
-	if repo is None:
-		try:
-			config = dulwich_repo.get_config()
-			repo = URL(config.get(("remote", "origin"), "url").decode("UTF-8"))
-		except dulwich.errors.NotGitRepository as e:
-			raise click.UsageError(str(e))
+		self.reported_errors_count = 0
 
-	elif not isinstance(repo, URL):
-		repo = URL(repo)
+	def finished(self, filename):
+		"""
+		We've finished processing a file.
+		"""
 
-	if repo.suffix == ".git":
-		repo = repo.with_suffix('')
+		self.files_reported_count += 1
 
-	repo_name = repo.name
+	def format(self, violation):
+		"""
+		Format a violation.
+		"""
 
-	# first case is for full url, second for github/hello_world
-	github_username = repo.parent.name or repo.domain.domain
+		if self.reported_errors_count == 0:
+			self.write_line(violation.filename)
 
-	check = Checks(
-			owner=github_username,
-			repository_name=repo_name,
-			check_name="Flake8",
-			head_sha=dulwich_repo.head().decode("UTF-8"),
-			token=token.value,
-			)
+			self.write_line(
+					f"::warning "
+					f"file={violation.filename},line={violation.line_number},col={violation.column_number}"
+					f"::{violation.code}: {violation.text}"
+					)
 
-	# check_run_id = check.create_check_run()
-	check_run_id = check.find_run_for_action()
-
-	flake8_app = Application()
-	flake8_app.run(args)
-	flake8_app.exit()
-
-	annotations: List[Annotation] = []
-
-	json_annotations = json.loads(flake8_app.formatter.output_fd.getvalue()).items()
-	for filename, raw_annotations in json_annotations:
-		annotations.extend(Annotation.from_flake8json(filename, ann) for ann in raw_annotations)
-
-	# Github limits updates to 50 annotations at a time
-	annotation_chunks = list(chunks(annotations, 50))
-
-	if flake8_app.result_count:
-		conclusion = "failure"
-		ret = 1
-	else:
-		conclusion = "success"
-		ret = 0
-
-	for chunk in annotation_chunks[:-1]:
-		check.update_check_run(
-				check_run_id,
-				conclusion=conclusion,
-				output={
-						"title": "Flake8 checks",
-						"summary": "Output from Flake8",
-						"annotations": [a.to_dict() for a in chunk],
-						},
-				)
-
-	output = {
-			"title": "Flake8 checks",
-			"summary": "Output from Flake8",
-			"annotations": [a.to_dict() for a in annotation_chunks[-1]],
-			}
-
-	# TODO: reflect flake8 output
-	return check.complete_check_run(check_run_id, conclusion="success", output=output), ret
+		self.reported_errors_count += 1
