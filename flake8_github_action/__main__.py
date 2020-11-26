@@ -28,45 +28,27 @@ CLI entry point.
 
 # stdlib
 import sys
-from typing import Union
 
 # 3rd party
 import click
-from apeye import URL
+from consolekit import CONTEXT_SETTINGS
 
 __all__ = ["main"]
 
-# 3rd party
-from consolekit import CONTEXT_SETTINGS
 
-token_var = "GITHUB_TOKEN"
-
-
-@click.option(
-		"--annotate-only",
-		is_flag=True,
-		default=False,
-		help="Only add the annotations (exit 0 regardless of flake8 output).",
-		)
 @click.command(context_settings={"ignore_unknown_options": True, "allow_extra_args": True, **CONTEXT_SETTINGS})
 @click.pass_context
-def main(ctx: click.Context, annotate_only: bool = False,):
+def main(ctx: click.Context):
 	"""
 	Run flake8 and add the errors as annotations on GitHub.
+
+	All options and arguments are passed through to flake8.
 	"""
 
 	# this package
 	from flake8_github_action import action
 
-	response, ret = action(*ctx.args)
-
-	# if response.status_code == 200:
-	# 	sys.exit(0)
-
-	if annotate_only:
-		sys.exit(0)
-	else:
-		sys.exit(ret)
+	action(*ctx.args)
 
 
 if __name__ == "__main__":

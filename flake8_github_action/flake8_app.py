@@ -32,16 +32,21 @@ Subclass of Flake8's ``Application``.
 #
 
 # stdlib
+import json
 from functools import partial
 from gettext import ngettext
 from io import StringIO
-from typing import Optional, Tuple, Type
+from typing import List, Optional, Tuple, Type
 
 # 3rd party
 import click
 import flake8.main.application  # type: ignore
 from flake8.formatting.base import BaseFormatter  # type: ignore
 from flake8_json_reporter.reporters import DefaultJSON  # type: ignore
+from typing_extensions import NoReturn
+
+# this package
+from flake8_github_action.annotation import Annotation
 
 __all__ = ["Application", "JsonFormatter"]
 
@@ -54,7 +59,7 @@ class Application(flake8.main.application.Application):
 	Subclass of Flake8's ``Application``.
 	"""
 
-	def exit(self) -> None:
+	def exit(self) -> NoReturn:
 		"""
 		Handle finalization and exiting the program.
 
@@ -62,23 +67,23 @@ class Application(flake8.main.application.Application):
 		It will check certain options and exit appropriately.
 		"""
 
-		# if self.options.count:
-		if True:
-			files_checked = self.file_checker_manager.statistics["files"]
-			files_with_errors = self.file_checker_manager.statistics["files_with_errors"]
-			if self.result_count:
-				click.echo(
-						f"Found {self.result_count} {_error(self.result_count)} "
-						f"in {files_with_errors} {_file(files_with_errors)} "
-						f"(checked {files_checked} source {_file(files_checked)})"
-						)
-			else:
-				click.echo(f"Success: no issues found in {files_checked} source {_file(files_checked)}")
+		if self.options.count:
+			if True:
+				files_checked = self.file_checker_manager.statistics["files"]
+				files_with_errors = self.file_checker_manager.statistics["files_with_errors"]
+				if self.result_count:
+					click.echo(
+							f"Found {self.result_count} {_error(self.result_count)} "
+							f"in {files_with_errors} {_file(files_with_errors)} "
+							f"(checked {files_checked} source {_file(files_checked)})"
+							)
+				else:
+					click.echo(f"Success: no issues found in {files_checked} source {_file(files_checked)}")
 
-		# if self.options.exit_zero:
-		# 	raise SystemExit(self.catastrophic_failure)
-		# else:
-		# 	raise SystemExit((self.result_count > 0) or self.catastrophic_failure)
+		if self.options.exit_zero:
+			raise SystemExit(self.catastrophic_failure)
+		else:
+			raise SystemExit((self.result_count > 0) or self.catastrophic_failure)
 
 	def report_errors(self) -> None:
 		"""
@@ -122,6 +127,22 @@ class Application(flake8.main.application.Application):
 
 		self.formatter = JsonFormatter(self.options)
 
+	def report(self):
+		"""
+		Report errors, statistics, and benchmarks.
+		"""
+
+		super().report()
+
+		annotations: List[Annotation] = []
+
+		json_annotations = json.loads(self.formatter.output_fd.getvalue()).items()
+		for filename, raw_annotations in json_annotations:
+			annotations.extend(Annotation.from_flake8json(filename, ann) for ann in raw_annotations)
+
+		for annotation in annotations:
+			print(annotation.to_str())
+
 
 class JsonFormatter(DefaultJSON):
 
@@ -129,3 +150,6 @@ class JsonFormatter(DefaultJSON):
 		super().__init__(*args, **kwargs)
 
 		self.output_fd = StringIO()
+
+
+

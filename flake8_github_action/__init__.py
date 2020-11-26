@@ -26,13 +26,11 @@ GitHub Action to run flake8.
 #  OR OTHER DEALINGS IN THE SOFTWARE.
 #
 
-# stdlib
-import json
-from typing import List
+# 3rd party
+from typing_extensions import NoReturn
 
 # this package
 from flake8_github_action.annotation import Annotation
-from flake8_github_action.checks import Checks
 from flake8_github_action.flake8_app import Application
 
 __author__: str = "Dominic Davis-Foster"
@@ -44,9 +42,7 @@ __email__: str = "dominic@davis-foster.co.uk"
 __all__ = ["action"]
 
 
-def action(
-		*args,
-		) -> int:
+def action(*args, ) -> NoReturn:
 	r"""
 	Action!
 
@@ -56,23 +52,3 @@ def action(
 	flake8_app = Application()
 	flake8_app.run(args)
 	flake8_app.exit()
-
-	annotations: List[Annotation] = []
-
-	json_annotations = json.loads(flake8_app.formatter.output_fd.getvalue()).items()
-	for filename, raw_annotations in json_annotations:
-		annotations.extend(Annotation.from_flake8json(filename, ann) for ann in raw_annotations)
-
-	if flake8_app.result_count:
-		ret = 1
-	else:
-		ret = 0
-
-	if annotations:
-		for annotation in annotations:
-			print(annotation.to_str())
-
-	return ret
-
-
-
