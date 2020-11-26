@@ -30,25 +30,23 @@ Subclass of Flake8's ``Application``.
 #  Copyright (C) 2012-2016 Ian Cordasco <graffatcolmingov@gmail.com>
 #  MIT Licensed
 #
+#  "GitHubFormatter" based on https://gitlab.com/pycqa/flake8-json
+#  Copyright (C) 2017-2018 Ian Stapleton Cordasco <graffatcolmingov@gmail.com>
+#  MIT Licensed
+#
 
 # stdlib
-import json
 from functools import partial
 from gettext import ngettext
-from io import StringIO
-from typing import List, Optional, Tuple, Type
+from typing import Optional, Tuple, Type
 
 # 3rd party
 import click
 import flake8.main.application  # type: ignore
 from flake8.formatting.base import BaseFormatter  # type: ignore
-from flake8_json_reporter.reporters import DefaultJSON  # type: ignore
 from typing_extensions import NoReturn
 
-# this package
-from flake8_github_action.annotation import Annotation
-
-__all__ = ["Application", "JsonFormatter"]
+__all__ = ["Application", "GitHubFormatter"]
 
 _error = partial(ngettext, "error", "errors")
 _file = partial(ngettext, "file", "files")
@@ -125,31 +123,47 @@ class Application(flake8.main.application.Application):
 		Initialize a formatter based on the parsed options.
 		"""
 
-		self.formatter = JsonFormatter(self.options)
+		self.formatter = GitHubFormatter(self.options)
 
-	def report(self):
+
+class GitHubFormatter(BaseFormatter):
+
+	def write_line(self, line):
 		"""
-		Report errors, statistics, and benchmarks.
+		Override write for convenience.
+		"""
+		self.write(line, None)
+
+	def start(self):
+		super().start()
+		self.files_reported_count = 0
+
+	def beginning(self, filename):
+		"""
+		We're starting a new file.
 		"""
 
-		super().report()
+		self.reported_errors_count = 0
 
-		json_annotations = json.loads(self.formatter.output_fd.getvalue()).items()
+	def finished(self, filename):
+		"""
+		We've finished processing a file.
+		"""
 
-		for filename, raw_annotations in json_annotations:
-			if raw_annotations:
-				print(filename)
+		self.files_reported_count += 1
 
-			for annotation in raw_annotations:
-				print(Annotation.from_flake8json(filename, annotation).to_str())
+	def format(self, violation):
+		"""
+		Format a violation.
+		"""
 
+		if self.reported_errors_count == 0:
+			self.write_line(violation.filename)
 
-class JsonFormatter(DefaultJSON):
+			self.write_line(
+					f"::warning "
+					f"file={violation.filename},line={violation.line_number},col={violation.column_number}"
+					f"::{violation.code}: {violation.text}"
+					)
 
-	def __init__(self, *args, **kwargs):
-		super().__init__(*args, **kwargs)
-
-		self.output_fd = StringIO()
-
-
-
+		self.reported_errors_count += 1

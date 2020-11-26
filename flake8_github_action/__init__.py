@@ -30,7 +30,6 @@ GitHub Action to run flake8.
 from typing_extensions import NoReturn
 
 # this package
-from flake8_github_action.annotation import Annotation
 from flake8_github_action.flake8_app import Application
 
 __author__: str = "Dominic Davis-Foster"

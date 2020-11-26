@@ -1,6 +1,4 @@
-attrs>=20.3.0
 click>=7.1.2
 consolekit>=0.6.0
 flake8>=3.8.4
-flake8-json>=19.8.0
 typing-extensions>=3.7.4.3
