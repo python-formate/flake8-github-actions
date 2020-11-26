@@ -50,7 +50,7 @@ token_var = "GITHUB_TOKEN"
 		)
 @click.command(context_settings={"ignore_unknown_options": True, "allow_extra_args": True, **CONTEXT_SETTINGS})
 @click.pass_context
-def main(ctx: click.Context, repo: Union[str, URL, None] = None, annotate_only: bool = False,):
+def main(ctx: click.Context, annotate_only: bool = False,):
 	"""
 	Run flake8 and add the errors as annotations on GitHub.
 	"""
@@ -58,7 +58,7 @@ def main(ctx: click.Context, repo: Union[str, URL, None] = None, annotate_only: 
 	# this package
 	from flake8_github_action import action
 
-	response, ret = action(repo, *ctx.args)
+	response, ret = action(*ctx.args)
 
 	# if response.status_code == 200:
 	# 	sys.exit(0)
