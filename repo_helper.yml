@@ -30,4 +30,4 @@ keywords:
 
 entry_points:
  flake8.report:
-  - github = flake8_github_action.reporters:GitHubFormatter
+  - github = flake8_github_action:GitHubFormatter

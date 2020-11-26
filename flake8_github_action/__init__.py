@@ -26,8 +26,66 @@ GitHub Actions integration for flake8.
 #  OR OTHER DEALINGS IN THE SOFTWARE.
 #
 
+# stdlib
+from functools import partial
+from gettext import ngettext
+
+# 3rd party
+from flake8.formatting.base import BaseFormatter  # type: ignore
+
 __author__: str = "Dominic Davis-Foster"
 __copyright__: str = "2020 Dominic Davis-Foster"
 __license__: str = "MIT License"
 __version__: str = "0.0.0"
 __email__: str = "dominic@davis-foster.co.uk"
+
+__all__ = ["GitHubFormatter"]
+
+_error = partial(ngettext, "error", "errors")
+_file = partial(ngettext, "file", "files")
+
+
+class GitHubFormatter(BaseFormatter):
+
+	def write_line(self, line):
+		"""
+		Override write for convenience.
+		"""
+		self.write(line, None)
+
+	def start(self):
+		super().start()
+		self.files_reported_count = 0
+
+	def beginning(self, filename):
+		"""
+		We're starting a new file.
+		"""
+
+		self.reported_errors_count = 0
+
+	def finished(self, filename):
+		"""
+		We've finished processing a file.
+		"""
+
+		self.files_reported_count += 1
+
+	def format(self, violation):
+		"""
+		Format a violation.
+		"""
+
+		if self.reported_errors_count == 0:
+			self.write_line(violation.filename)
+
+			self.write_line(
+					f"::warning "
+					f"file={violation.filename},line={violation.line_number},col={violation.column_number}"
+					f"::{violation.code}: {violation.text}"
+					)
+
+		self.reported_errors_count += 1
+
+
+
