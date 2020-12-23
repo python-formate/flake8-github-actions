@@ -46,6 +46,9 @@ _file = partial(ngettext, "file", "files")
 
 
 class GitHubFormatter(BaseFormatter):
+	"""
+	Custom Flake8 formatter for GitHub actions.
+	"""
 
 	def write_line(self, line):
 		"""
@@ -53,7 +56,7 @@ class GitHubFormatter(BaseFormatter):
 		"""
 		self.write(line, None)
 
-	def start(self):
+	def start(self):  # noqa: D102
 		super().start()
 		self.files_reported_count = 0
 
@@ -71,7 +74,7 @@ class GitHubFormatter(BaseFormatter):
 
 		self.files_reported_count += 1
 
-	def format(self, violation):
+	def format(self, violation):  # noqa: A003  # pylint: disable=redefined-builtin
 		"""
 		Format a violation.
 		"""
