@@ -85,7 +85,7 @@ flake8-github-actions
 	:target: https://github.com/domdfcoding/flake8-github-actions/commit/master
 	:alt: GitHub last commit
 
-.. |maintained| image:: https://img.shields.io/maintenance/yes/2020
+.. |maintained| image:: https://img.shields.io/maintenance/yes/2021
 	:alt: Maintenance
 
 .. |pypi-downloads| image:: https://img.shields.io/pypi/dm/flake8-github-actions
