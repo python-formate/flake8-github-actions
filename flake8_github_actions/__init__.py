@@ -26,11 +26,8 @@ GitHub Actions integration for flake8.
 #  OR OTHER DEALINGS IN THE SOFTWARE.
 #
 
-# stdlib
-from functools import partial
-from gettext import ngettext
-
 # 3rd party
+from domdf_python_tools.words import Plural
 from flake8.formatting.base import BaseFormatter  # type: ignore
 
 __author__: str = "Dominic Davis-Foster"
@@ -41,8 +38,8 @@ __email__: str = "dominic@davis-foster.co.uk"
 
 __all__ = ["GitHubFormatter"]
 
-_error = partial(ngettext, "error", "errors")
-_file = partial(ngettext, "file", "files")
+_error = Plural("error", "errors")
+_file = Plural("file", "files")
 
 
 class GitHubFormatter(BaseFormatter):
