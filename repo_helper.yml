@@ -18,6 +18,7 @@ python_versions:
  - 3.7
  - 3.8
  - 3.9
+ - 3.10-dev
 
 additional_ignore:
  - action.py
@@ -30,3 +31,8 @@ keywords:
 entry_points:
  flake8.report:
   - github = flake8_github_actions:GitHubFormatter
+
+classifiers:
+ - 'Environment :: Console'
+ - 'Framework :: Flake8'
+ - 'Intended Audience :: Developers'
