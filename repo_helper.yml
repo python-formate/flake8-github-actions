@@ -14,11 +14,13 @@ enable_tests: false
 enable_docs: false
 
 python_versions:
- - 3.6
- - 3.7
- - 3.8
- - 3.9
+ - '3.6'
+ - '3.7'
+ - '3.8'
+ - '3.9'
  - 3.10-dev
+ - pypy3
+ - rustpython
 
 additional_ignore:
  - action.py
@@ -29,8 +31,8 @@ keywords:
  - github-actions
 
 entry_points:
- flake8.report:
-  - github = flake8_github_actions:GitHubFormatter
+  flake8.report:
+   - github = flake8_github_actions:GitHubFormatter
 
 classifiers:
  - 'Environment :: Console'
