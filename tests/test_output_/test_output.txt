@@ -1,0 +1,7 @@
+/home/domdf/Python/01 GitHub Repos/01 Flake8 Plugins/flake8-github-actions/tests/bad_code.py
+::warning file=/home/domdf/Python/01 GitHub Repos/01 Flake8 Plugins/flake8-github-actions/tests/bad_code.py,line=2,col=1::F401: 'warnings' imported but unused
+::warning file=/home/domdf/Python/01 GitHub Repos/01 Flake8 Plugins/flake8-github-actions/tests/bad_code.py,line=5,col=1::F404: from __future__ imports must occur at the beginning of the file
+::warning file=/home/domdf/Python/01 GitHub Repos/01 Flake8 Plugins/flake8-github-actions/tests/bad_code.py,line=11,col=1::E303: too many blank lines (5)
+::warning file=/home/domdf/Python/01 GitHub Repos/01 Flake8 Plugins/flake8-github-actions/tests/bad_code.py,line=11,col=7::F821: undefined name 'name'
+::warning file=/home/domdf/Python/01 GitHub Repos/01 Flake8 Plugins/flake8-github-actions/tests/bad_code.py,line=13,col=1::F701: 'break' outside loop
+5

@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "flake8-github-actions"
-version = "0.1.0"
+version = "0.1.1"
 description = "GitHub Actions integration for flake8."
 readme = "README.rst"
 keywords = [ "flake8", "github", "github-actions",]
@@ -12,9 +12,6 @@ dynamic = [ "requires-python", "classifiers", "dependencies",]
 [[project.authors]]
 email = "dominic@davis-foster.co.uk"
 name = "Dominic Davis-Foster"
-
-[tool.importcheck]
-always = [ "flake8_github_actions",]
 
 [project.license]
 file = "LICENSE"

@@ -10,7 +10,6 @@ license: 'MIT'
 short_desc: 'GitHub Actions integration for flake8.'
 
 enable_conda: false
-enable_tests: false
 enable_docs: false
 
 python_versions:
@@ -19,7 +18,8 @@ python_versions:
  - '3.8'
  - '3.9'
  - 3.10-dev
- - pypy3
+ - pypy36
+ - pypy37
 
 additional_ignore:
  - action.py
@@ -39,3 +39,6 @@ classifiers:
  - 'Intended Audience :: Developers'
 
 requires_python: 3.6
+
+pre_commit_exclude: "^tests/bad_code.py$"
+min_coverage: 100
