@@ -77,7 +77,7 @@ flake8-github-actions
 .. |language| image:: https://img.shields.io/github/languages/top/domdfcoding/flake8-github-actions
 	:alt: GitHub top language
 
-.. |commits-since| image:: https://img.shields.io/github/commits-since/domdfcoding/flake8-github-actions/v0.1.0
+.. |commits-since| image:: https://img.shields.io/github/commits-since/domdfcoding/flake8-github-actions/v0.1.1
 	:target: https://github.com/domdfcoding/flake8-github-actions/pulse
 	:alt: GitHub commits since tagged version
 
