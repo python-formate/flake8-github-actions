@@ -11,5 +11,6 @@ def test_output(file_regression: FileRegressionFixture, capsys):
 	with pytest.raises(SystemExit):
 		cli.main([str(bad_code), "--select", "F401,F404,F821,F701,E303", "--format", "github"])
 
-	check_file_regression(capsys.readouterr().out, file_regression)
+	stdout = capsys.readouterr().out.replace(str(bad_code), "bad_code.py")
+	check_file_regression(stdout, file_regression)
 	assert not capsys.readouterr().err
