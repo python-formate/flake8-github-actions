@@ -5,7 +5,7 @@
 GitHub Actions integration for flake8.
 """
 #
-#  Copyright © 2020 Dominic Davis-Foster <dominic@davis-foster.co.uk>
+#  Copyright © 2020-2021 Dominic Davis-Foster <dominic@davis-foster.co.uk>
 #
 #  Permission is hereby granted, free of charge, to any person obtaining a copy
 #  of this software and associated documentation files (the "Software"), to deal
@@ -27,19 +27,15 @@ GitHub Actions integration for flake8.
 #
 
 # 3rd party
-from domdf_python_tools.words import Plural
 from flake8.formatting.base import BaseFormatter  # type: ignore
 
 __author__: str = "Dominic Davis-Foster"
-__copyright__: str = "2020 Dominic Davis-Foster"
+__copyright__: str = "2020-2021 Dominic Davis-Foster"
 __license__: str = "MIT License"
 __version__: str = "0.1.1"
 __email__: str = "dominic@davis-foster.co.uk"
 
 __all__ = ["GitHubFormatter"]
-
-_error = Plural("error", "errors")
-_file = Plural("file", "files")
 
 
 class GitHubFormatter(BaseFormatter):
