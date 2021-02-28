@@ -157,3 +157,8 @@ Example workflow:
 
 	      - name: "Run Flake8"
 	        run: "flake8 --format github"
+
+
+The annotations will look something like:
+
+.. image:: https://raw.githubusercontent.com/domdfcoding/flake8-github-actions/master/example_annotations.png
