@@ -22,7 +22,7 @@ flake8-github-actions
 	* - Activity
 	  - |commits-latest| |commits-since| |maintained| |pypi-downloads|
 	* - QA
-	  - |codefactor| |actions_flake8| |actions_mypy| |pre_commit_ci|
+	  - |codefactor| |actions_flake8| |actions_mypy|
 	* - Other
 	  - |license| |language| |requires|
 
@@ -95,10 +95,6 @@ flake8-github-actions
 .. |pypi-downloads| image:: https://img.shields.io/pypi/dm/flake8-github-actions
 	:target: https://pypi.org/project/flake8-github-actions/
 	:alt: PyPI - Downloads
-
-.. |pre_commit_ci| image:: https://results.pre-commit.ci/badge/github/domdfcoding/flake8-github-actions/master.svg
-	:target: https://results.pre-commit.ci/latest/github/domdfcoding/flake8-github-actions/master
-	:alt: pre-commit.ci status
 
 .. end shields
 
