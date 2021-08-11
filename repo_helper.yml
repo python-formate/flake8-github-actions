@@ -4,13 +4,17 @@ modname: 'flake8-github-actions'
 copyright_years: '2020'
 author: 'Dominic Davis-Foster'
 email: 'dominic@davis-foster.co.uk'
-username: 'domdfcoding'
+username: "python-formate"
+assignee: "domdfcoding"
 version: '0.1.1'
 license: 'MIT'
 short_desc: 'GitHub Actions integration for flake8.'
 
+min_coverage: 100
 enable_conda: false
 enable_docs: false
+requires_python: 3.6
+pre_commit_exclude: "^tests/bad_code.py$"
 
 python_versions:
  - '3.6'
@@ -34,14 +38,10 @@ entry_points:
    - github = flake8_github_actions:GitHubFormatter
 
 classifiers:
+ - 'Development Status :: 4 - Beta'
  - 'Environment :: Console'
  - 'Framework :: Flake8'
  - 'Intended Audience :: Developers'
-
-requires_python: 3.6
-
-pre_commit_exclude: "^tests/bad_code.py$"
-min_coverage: 100
 
 tox_unmanaged:
  - "testenv:lint"
