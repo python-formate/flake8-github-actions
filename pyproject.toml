@@ -19,9 +19,9 @@ email = "dominic@davis-foster.co.uk"
 file = "LICENSE"
 
 [project.urls]
-Homepage = "https://github.com/domdfcoding/flake8-github-actions"
-"Issue Tracker" = "https://github.com/domdfcoding/flake8-github-actions/issues"
-"Source Code" = "https://github.com/domdfcoding/flake8-github-actions"
+Homepage = "https://github.com/python-formate/flake8-github-actions"
+"Issue Tracker" = "https://github.com/python-formate/flake8-github-actions/issues"
+"Source Code" = "https://github.com/python-formate/flake8-github-actions"
 
 [tool.whey]
 base-classifiers = [
