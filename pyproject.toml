@@ -25,6 +25,7 @@ Homepage = "https://github.com/python-formate/flake8-github-actions"
 
 [tool.whey]
 base-classifiers = [
+    "Development Status :: 4 - Beta",
     "Environment :: Console",
     "Framework :: Flake8",
     "Intended Audience :: Developers",

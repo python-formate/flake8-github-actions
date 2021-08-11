@@ -35,6 +35,7 @@ entry_points:
    - github = flake8_github_actions:GitHubFormatter
 
 classifiers:
+ - 'Development Status :: 4 - Beta'
  - 'Environment :: Console'
  - 'Framework :: Flake8'
  - 'Intended Audience :: Developers'
