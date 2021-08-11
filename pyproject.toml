@@ -9,9 +9,11 @@ description = "GitHub Actions integration for flake8."
 readme = "README.rst"
 keywords = [ "flake8", "github", "github-actions",]
 dynamic = [ "requires-python", "classifiers", "dependencies",]
+
 [[project.authors]]
-email = "dominic@davis-foster.co.uk"
 name = "Dominic Davis-Foster"
+email = "dominic@davis-foster.co.uk"
+
 
 [project.license]
 file = "LICENSE"
@@ -20,6 +22,26 @@ file = "LICENSE"
 Homepage = "https://github.com/domdfcoding/flake8-github-actions"
 "Issue Tracker" = "https://github.com/domdfcoding/flake8-github-actions/issues"
 "Source Code" = "https://github.com/domdfcoding/flake8-github-actions"
+
+[tool.whey]
+base-classifiers = [
+    "Environment :: Console",
+    "Framework :: Flake8",
+    "Intended Audience :: Developers",
+    "Typing :: Typed",
+]
+python-versions = [ "3.6", "3.7", "3.8", "3.9",]
+python-implementations = [ "CPython", "PyPy",]
+platforms = [ "Windows", "macOS", "Linux",]
+license-key = "MIT"
+package = "flake8_github_actions"
+
+[tool.mypy]
+python_version = "3.6"
+namespace_packages = true
+check_untyped_defs = true
+warn_unused_ignores = true
+no_implicit_optional = true
 
 [project.entry-points."flake8.report"]
 github = "flake8_github_actions:GitHubFormatter"

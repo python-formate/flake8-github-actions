@@ -46,6 +46,7 @@ known_third_party = [
     "flake8_prettycount",
     "github",
     "github3_py",
+    "importlib_metadata",
     "pytest",
     "pytest_cov",
     "pytest_randomly",

@@ -2,6 +2,7 @@
 # This file is managed by 'repo_helper'. Don't edit it directly.
 
 # stdlib
+import pathlib
 import shutil
 import sys
 
@@ -13,12 +14,15 @@ sys.path.append('.')
 # this package
 from __pkginfo__ import *  # pylint: disable=wildcard-import
 
+repo_root = pathlib.Path(__file__).parent
+install_requires = (repo_root / "requirements.txt").read_text(encoding="UTF-8").split('\n')
+
 setup(
 		description="GitHub Actions integration for flake8.",
 		extras_require=extras_require,
 		install_requires=install_requires,
+		name="flake8-github-actions",
 		py_modules=[],
-		version=__version__,
 		)
 
 shutil.rmtree("flake8_github_actions.egg-info", ignore_errors=True)
