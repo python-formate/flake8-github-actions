@@ -1,15 +1,15 @@
 [build-system]
-requires = [ "setuptools>=40.6.0", "wheel>=0.34.2",]
-build-backend = "setuptools.build_meta"
+requires = [ "whey",]
+build-backend = "whey"
 
 [project]
 name = "flake8-github-actions"
 version = "0.1.1"
 description = "GitHub Actions integration for flake8."
 readme = "README.rst"
+requires-python = ">=3.6"
 keywords = [ "flake8", "github", "github-actions",]
 dynamic = [ "classifiers", "dependencies",]
-requires-python = ">=3.6"
 
 [[project.authors]]
 name = "Dominic Davis-Foster"
