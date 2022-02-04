@@ -49,6 +49,9 @@ show_error_codes = true
 [tool.snippet-fmt]
 directives = [ "code-block",]
 
+[tool.dep_checker]
+allowed_unused = [ "flake8",]
+
 [project.entry-points."flake8.report"]
 github = "flake8_github_actions:GitHubFormatter"
 
