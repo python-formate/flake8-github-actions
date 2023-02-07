@@ -26,6 +26,9 @@ GitHub Actions integration for flake8.
 #  OR OTHER DEALINGS IN THE SOFTWARE.
 #
 
+# stdlib
+from typing import Any
+
 # 3rd party
 from flake8.formatting.base import BaseFormatter  # type: ignore
 
@@ -35,7 +38,7 @@ __license__: str = "MIT License"
 __version__: str = "0.1.1"
 __email__: str = "dominic@davis-foster.co.uk"
 
-__all__ = ["GitHubFormatter"]
+__all__ = ("GitHubFormatter", )
 
 
 class GitHubFormatter(BaseFormatter):
@@ -43,31 +46,33 @@ class GitHubFormatter(BaseFormatter):
 	Custom Flake8 formatter for GitHub actions.
 	"""
 
-	def write_line(self, line):
+	reported_errors_count: int
+
+	def write_line(self, line: str) -> None:
 		"""
 		Override write for convenience.
 		"""
 		self.write(line, None)
 
-	def start(self):  # noqa: D102
+	def start(self) -> None:  # noqa: D102
 		super().start()
 		self.files_reported_count = 0
 
-	def beginning(self, filename):
+	def beginning(self, filename: Any) -> None:
 		"""
 		We're starting a new file.
 		"""
 
 		self.reported_errors_count = 0
 
-	def finished(self, filename):
+	def finished(self, filename: Any) -> None:
 		"""
 		We've finished processing a file.
 		"""
 
 		self.files_reported_count += 1
 
-	def format(self, violation):  # noqa: A003  # pylint: disable=redefined-builtin
+	def format(self, violation) -> None:  # noqa: A003  # pylint: disable=redefined-builtin
 		"""
 		Format a violation.
 		"""
