@@ -54,4 +54,4 @@ known_third_party = [
     "requests",
     "typing_extensions",
 ]
-known_first_party = "flake8_github_actions"
+known_first_party = [ "flake8_github_actions",]
