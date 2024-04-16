@@ -15,7 +15,6 @@ dynamic = [ "classifiers", "dependencies",]
 name = "Dominic Davis-Foster"
 email = "dominic@davis-foster.co.uk"
 
-
 [project.license]
 file = "LICENSE"
 
@@ -23,6 +22,9 @@ file = "LICENSE"
 Homepage = "https://github.com/python-formate/flake8-github-actions"
 "Issue Tracker" = "https://github.com/python-formate/flake8-github-actions/issues"
 "Source Code" = "https://github.com/python-formate/flake8-github-actions"
+
+[project.entry-points."flake8.report"]
+github = "flake8_github_actions:GitHubFormatter"
 
 [tool.whey]
 base-classifiers = [
@@ -49,19 +51,6 @@ show_error_codes = true
 [tool.snippet-fmt]
 directives = [ "code-block",]
 
-[tool.dep_checker]
-allowed_unused = [ "flake8",]
-
-[project.entry-points."flake8.report"]
-github = "flake8_github_actions:GitHubFormatter"
-
-[tool.dependency-dash."requirements.txt"]
-order = 10
-
-[tool.dependency-dash."tests/requirements.txt"]
-order = 20
-include = false
-
 [tool.snippet-fmt.languages.python]
 reformat = true
 
@@ -71,3 +60,13 @@ reformat = true
 [tool.snippet-fmt.languages.ini]
 
 [tool.snippet-fmt.languages.json]
+
+[tool.dep_checker]
+allowed_unused = [ "flake8",]
+
+[tool.dependency-dash."requirements.txt"]
+order = 10
+
+[tool.dependency-dash."tests/requirements.txt"]
+order = 20
+include = false
