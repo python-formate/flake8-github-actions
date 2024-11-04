@@ -18,17 +18,42 @@ pre_commit_exclude: "^tests/bad_code.py$"
 use_whey: true
 
 python_versions:
- - '3.6'
- - '3.7'
- - '3.8'
- - '3.9'
- - "3.10"
- - "3.11"
-#  - 3.12-dev  # Flake8<5 incompatible
- - pypy36
- - pypy37
- - pypy38
- - pypy39
+ 3.6:
+  matrix_exclude:
+   flake8:
+   - 6
+   - 7
+ 3.7:
+  matrix_exclude:
+   flake8:
+   - 6
+   - 7
+ 3.8:
+ 3.9:
+ "3.10":
+ 3.11:
+ 3.12:
+  matrix_exclude:
+   flake8:
+   - 4
+   - 5
+ 3.13:
+  matrix_exclude:
+   flake8:
+   - 4
+   - 5
+ pypy36:
+  matrix_exclude:
+   flake8:
+   - 6
+   - 7
+ pypy37:
+  matrix_exclude:
+   flake8:
+   - 6
+   - 7
+ pypy38:
+ pypy39:
 
 additional_ignore:
  - action.py
@@ -50,3 +75,10 @@ classifiers:
 
 tox_unmanaged:
  - "testenv:lint"
+
+third_party_version_matrix:
+ flake8:
+  - 4
+  - 5
+  - 6
+  - 7
