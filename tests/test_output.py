@@ -3,7 +3,7 @@ import pytest
 from coincidence.regressions import FileRegressionFixture, check_file_regression
 from domdf_python_tools.compat import importlib_metadata
 from domdf_python_tools.paths import PathPlus
-from flake8.main import cli  # type: ignore
+from flake8.main import cli
 
 bad_code = PathPlus(__file__).parent / "bad_code.py"
 

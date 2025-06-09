@@ -27,10 +27,14 @@ GitHub Actions integration for flake8.
 #
 
 # stdlib
-from typing import Any
+from typing import TYPE_CHECKING, Any
 
 # 3rd party
-from flake8.formatting.base import BaseFormatter  # type: ignore
+from flake8.formatting.base import BaseFormatter
+
+if TYPE_CHECKING:
+	# 3rd party
+	from flake8.violation import Violation
 
 __author__: str = "Dominic Davis-Foster"
 __copyright__: str = "2020-2021 Dominic Davis-Foster"
@@ -72,7 +76,7 @@ class GitHubFormatter(BaseFormatter):
 
 		self.files_reported_count += 1
 
-	def format(self, violation) -> None:  # noqa: A003  # pylint: disable=redefined-builtin
+	def format(self, violation: "Violation") -> None:  # noqa: A003  # pylint: disable=redefined-builtin
 		"""
 		Format a violation.
 		"""
