@@ -52,31 +52,32 @@ class GitHubFormatter(BaseFormatter):
 
 	reported_errors_count: int
 
-	def write_line(self, line: str) -> None:
+	def write_line(self, line: str) -> None:  # noqa: PRM002
 		"""
 		Override write for convenience.
 		"""
+
 		self.write(line, None)
 
 	def start(self) -> None:  # noqa: D102
 		super().start()
 		self.files_reported_count = 0
 
-	def beginning(self, filename: Any) -> None:
+	def beginning(self, filename: Any) -> None:  # noqa: PRM002
 		"""
 		We're starting a new file.
 		"""
 
 		self.reported_errors_count = 0
 
-	def finished(self, filename: Any) -> None:
+	def finished(self, filename: Any) -> None:  # noqa: PRM002
 		"""
 		We've finished processing a file.
 		"""
 
 		self.files_reported_count += 1
 
-	def format(self, violation: "Violation") -> None:  # noqa: A003  # pylint: disable=redefined-builtin
+	def format(self, violation: "Violation") -> None:    # noqa: PRM002,A003  # pylint: disable=redefined-builtin
 		"""
 		Format a violation.
 		"""
